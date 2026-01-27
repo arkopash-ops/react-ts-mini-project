@@ -101,56 +101,81 @@ export default function Login() {
     }
 
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card shadow">
-                        <div className="card-body">
-                            <h2 className="card-title mb-4 text-center">Login</h2>
+        <main
+            className="min-vh-100 d-flex align-items-center"
+            style={{
+                background: "linear-gradient(135deg, #1f1f1f, #f1f1f1)"
+            }}
+        >
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-md-6 col-lg-4">
+                        <div className="card shadow-lg border-0 rounded-4">
+                            <div className="card-body p-4">
 
-                            <form onSubmit={handleSubmit}>
-                                {/* Email */}
-                                <div className="mb-3">
-                                    <label className="form-label">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.email && (
-                                        <div className="invalid-feedback">{errors.email}</div>
-                                    )}
+                                <div className="text-center mb-4">
+                                    <h2 className="fw-bold">Welcome Back</h2>
+                                    <p className="text-muted mb-0">
+                                        Login to continue ordering delicious food
+                                    </p>
                                 </div>
 
-                                {/* Password */}
-                                <div className="mb-3">
-                                    <label className="form-label">Password</label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.password && (
-                                        <div className="invalid-feedback">{errors.password}</div>
-                                    )}
-                                </div>
+                                <form onSubmit={handleSubmit}>
+                                    {/* Email */}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className={`form-control form-control-lg ${errors.email ? "is-invalid" : ""
+                                                }`}
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder="example@mail.com"
+                                        />
+                                        {errors.email && (
+                                            <div className="invalid-feedback">{errors.email}</div>
+                                        )}
+                                    </div>
 
-                                <button type="submit" className="btn btn-primary w-100">
-                                    Login
-                                </button>
-                            </form>
+                                    {/* Password */}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className={`form-control form-control-lg ${errors.password ? "is-invalid" : ""
+                                                }`}
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            placeholder="Enter your password"
+                                        />
+                                        {errors.password && (
+                                            <div className="invalid-feedback">{errors.password}</div>
+                                        )}
+                                    </div>
 
-                            <p className="mt-3 text-center">
-                                Don’t have an account? <Link to="/register">Register</Link>
-                            </p>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-dark btn-lg w-100 mt-2"
+                                    >
+                                        Login
+                                    </button>
+                                </form>
+
+                                <p className="mt-4 text-center text-muted">
+                                    Don’t have an account?{" "}
+                                    <Link to="/register" className="fw-semibold text-decoration-none">
+                                        Register
+                                    </Link>
+                                </p>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
+
 }

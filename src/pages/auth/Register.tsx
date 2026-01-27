@@ -101,86 +101,117 @@ export default function Register() {
     }
 
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card shadow">
-                        <div className="card-body">
-                            <h2 className="card-title mb-4 text-center">Register</h2>
+        <main
+            className="min-vh-100 d-flex align-items-center"
+            style={{
+                background: "linear-gradient(135deg, #1f1f1f, #f1f1f1)"
+            }}
+        >
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-md-6 col-lg-4">
+                        <div className="card shadow-lg border-0 rounded-4">
+                            <div className="card-body p-4">
 
-                            <form onSubmit={handleSubmit}>
-                                {/* Name */}
-                                <div className="mb-3">
-                                    <label className="form-label">Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.name && (
-                                        <div className="invalid-feedback">{errors.name}</div>
-                                    )}
+                                <div className="text-center mb-4">
+                                    <h2 className="fw-bold">Create Account</h2>
+                                    <p className="text-muted mb-0">
+                                        Join us and start ordering your favorite food
+                                    </p>
                                 </div>
 
-                                {/* Email */}
-                                <div className="mb-3">
-                                    <label className="form-label">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.email && (
-                                        <div className="invalid-feedback">{errors.email}</div>
-                                    )}
-                                </div>
+                                <form onSubmit={handleSubmit}>
+                                    {/* Name */}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            className={`form-control form-control-lg ${errors.name ? "is-invalid" : ""
+                                                }`}
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            placeholder="Your name"
+                                        />
+                                        {errors.name && (
+                                            <div className="invalid-feedback">{errors.name}</div>
+                                        )}
+                                    </div>
 
-                                {/* Phone */}
-                                <div className="mb-3">
-                                    <label className="form-label">Phone (optional)</label>
-                                    <input
-                                        type="tel"
-                                        name="phone"
-                                        className={`form-control ${errors.phone ? "is-invalid" : ""}`}
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.phone && (
-                                        <div className="invalid-feedback">{errors.phone}</div>
-                                    )}
-                                </div>
+                                    {/* Email */}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className={`form-control form-control-lg ${errors.email ? "is-invalid" : ""
+                                                }`}
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder="example@mail.com"
+                                        />
+                                        {errors.email && (
+                                            <div className="invalid-feedback">{errors.email}</div>
+                                        )}
+                                    </div>
 
-                                {/* Password */}
-                                <div className="mb-3">
-                                    <label className="form-label">Password</label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.password && (
-                                        <div className="invalid-feedback">{errors.password}</div>
-                                    )}
-                                </div>
+                                    {/* Phone */}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">
+                                            Phone <span className="text-muted">(optional)</span>
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            className={`form-control form-control-lg ${errors.phone ? "is-invalid" : ""
+                                                }`}
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            placeholder="10-digit number"
+                                        />
+                                        {errors.phone && (
+                                            <div className="invalid-feedback">{errors.phone}</div>
+                                        )}
+                                    </div>
 
-                                <button type="submit" className="btn btn-primary w-100">
-                                    Register
-                                </button>
-                            </form>
+                                    {/* Password */}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className={`form-control form-control-lg ${errors.password ? "is-invalid" : ""
+                                                }`}
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            placeholder="At least 6 characters"
+                                        />
+                                        {errors.password && (
+                                            <div className="invalid-feedback">{errors.password}</div>
+                                        )}
+                                    </div>
 
-                            <p className="mt-3 text-center">
-                                Already have an account? <Link to="/login">Login</Link>
-                            </p>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-dark btn-lg w-100 mt-2"
+                                    >
+                                        Register
+                                    </button>
+                                </form>
+
+                                <p className="mt-4 text-center text-muted">
+                                    Already have an account?{" "}
+                                    <Link to="/login" className="fw-semibold text-decoration-none">
+                                        Login
+                                    </Link>
+                                </p>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
+
 }

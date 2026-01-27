@@ -1,35 +1,58 @@
 const AboutUs = () => {
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-lg-8">
-                    <div className="card shadow-sm">
-                        <div className="card-body">
-                            <h1 className="card-title mb-4 text-center">About Us</h1>
+        <main>
+            <section 
+            className="bg-light py-5">
+                <div className="container text-center">
+                    <h1 className="fw-bold text-dark">About Bon Appétit</h1>
+                    <p className="text-muted mt-3">
+                        Connecting hungry customers with amazing restaurants
+                    </p>
+                </div>
+            </section>
 
-                            <p className="mb-4">
-                                Our <strong>Food Ordering Admin Panel</strong> is designed to manage restaurants,
-                                menus, users, and orders efficiently.
+            <section className="py-5">
+                <div className="container">
+                    <div className="row align-items-center g-4">
+                        <div className="col-md-6">
+                            <img
+                                src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092"
+                                alt="Delicious food prepared by restaurant"
+                                className="img-fluid rounded"
+                                loading="lazy"
+                            />
+                        </div>
+
+                        <div className="col-md-6">
+                            <h2 className="fw-bold mb-3">How It Works</h2>
+                            <p className="text-secondary">
+                                FoodieHub is a food ordering platform where restaurant owners
+                                can list menus and customers can order food effortlessly.
                             </p>
 
-                            <h3 className="mb-3">What we offer</h3>
-                            <ul className="list-group list-group-flush mb-4">
-                                <li className="list-group-item">Role-based access (Admin, Owner, User)</li>
-                                <li className="list-group-item">Restaurant & menu management</li>
-                                <li className="list-group-item">Order tracking & analytics</li>
-                                <li className="list-group-item">Scalable TypeScript-first architecture</li>
+                            <ul className="list-unstyled mt-4">
+                                <li className="mb-2">
+                                    <strong>Restaurant Owners:</strong> Add menus, manage items & pricing
+                                </li>
+                                <li className="mb-2">
+                                    <strong>Customers:</strong> Browse food & track delivery in real time
+                                </li>
                             </ul>
-
-                            <p>
-                                This project is built using <strong>React + TypeScript</strong> and will
-                                evolve into a full-stack application with Node.js, Express, and MongoDB.
-                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    )
-}
+            </section>
+
+            <section className="bg-dark text-white py-5">
+                <div className="container text-center">
+                    <h2 className="fw-bold">Our Mission</h2>
+                    <p className="mt-3">
+                        To make food ordering fast, simple, and enjoyable for everyone.
+                    </p>
+                </div>
+            </section>
+        </main>
+    );
+};
 
 export default AboutUs;

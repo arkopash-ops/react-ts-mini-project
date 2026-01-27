@@ -12,8 +12,8 @@ export const Navbar: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const rawUser = localStorage.getItem("currentUser");
-        if (rawUser) { setTimeout(() => setAuthUser(JSON.parse(rawUser)), 0); }
+        const myUser = localStorage.getItem("currentUser");
+        if (myUser) { setTimeout(() => setAuthUser(JSON.parse(myUser)), 0); }
     }, []);
 
     const handleLogout = () => {
@@ -25,11 +25,19 @@ export const Navbar: React.FC = () => {
     const isLoggedIn = !!authUser;
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+        <nav className="navbar navbar-expand-lg navbar-dark px-4">
             <div className="container-fluid">
                 <NavLink className="navbar-brand fw-bold" to="/">
                     Bon Appétit
                 </NavLink>
+
+                <a className="navbar-brand disabled" aria-disabled="true">
+                    {isLoggedIn && (
+                        <span className="ms-2 text-light">
+                            | Hello, <strong>{authUser.name}</strong>
+                        </span>
+                    )}
+                </a>
 
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <ul className="navbar-nav ms-auto align-items-center">
@@ -51,16 +59,6 @@ export const Navbar: React.FC = () => {
                                         Login
                                     </NavLink>
                                 </li>
-                                <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/about">
-                                        About Us
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/contact">
-                                        Contact Us
-                                    </NavLink>
-                                </li>
                             </>
                         )}
 
@@ -69,17 +67,7 @@ export const Navbar: React.FC = () => {
                             <>
                                 <li className="nav-item ms-3">
                                     <NavLink className="nav-link" to="/adminDashboard">
-                                        Admin Dashboard
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/about">
-                                        About Us
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/contact">
-                                        Contact Us
+                                        Dashboard
                                     </NavLink>
                                 </li>
                             </>
@@ -94,18 +82,20 @@ export const Navbar: React.FC = () => {
                                         User Home
                                     </NavLink>
                                 </li>
-                                <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/about">
-                                        About Us
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/contact">
-                                        Contact Us
-                                    </NavLink>
-                                </li>
                             </>
                         )}
+
+                        {/* Common Links */}
+                        <li className="nav-item ms-3">
+                            <NavLink className="nav-link" to="/about">
+                                About Us
+                            </NavLink>
+                        </li>
+                        <li className="nav-item ms-3">
+                            <NavLink className="nav-link" to="/contact">
+                                Contact Us
+                            </NavLink>
+                        </li>
 
                         {/* Logout */}
                         {isLoggedIn && (
@@ -113,7 +103,7 @@ export const Navbar: React.FC = () => {
                                 <button
                                     className="btn btn-link nav-link"
                                     onClick={handleLogout}
-                                    style={{ textDecoration: "none", color: "#fff" }}
+                                    style={{ textDecoration: "none", color: "#ff0000" }}
                                 >
                                     Logout
                                 </button>

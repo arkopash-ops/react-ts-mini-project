@@ -13,14 +13,10 @@ const ContactUs = () => {
     message: "",
   });
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    const { name, value } = e.target;
-
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [e.target.name]: e.target.value,
     }));
   }
 
@@ -30,62 +26,90 @@ const ContactUs = () => {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h1 className="card-title mb-4 text-center">Contact Us</h1>
+    <>
+      {/* Hero */}
+      <section className="py-5">
+        <div className="container text-center">
+          <h1 className="fw-bold text-light">Contact Us</h1>
+          <p className="text-secondary mt-2">
+            Have questions? We'd love to hear from you
+          </p>
+        </div>
+      </section>
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="form-control"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
+      {/* Contact Form */}
+      <section
+        className="py-5"
+        style={{
+          background: "linear-gradient(135deg, #1f1f1f, #f1f1f1)"
+        }}
+      >
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-6 col-lg-5">
+              <div className="card shadow-sm">
+                <div className="card-body p-4">
+
+                  <h4 className="fw-bold mb-3 text-center">
+                    Send us a message
+                  </h4>
+
+                  <form onSubmit={handleSubmit}>
+                    {/* Name */}
+                    <div className="mb-3">
+                      <label className="form-label">Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Your name"
+                        required
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div className="mb-3">
+                      <label className="form-label">Email</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="example@mail.com"
+                        required
+                      />
+                    </div>
+
+                    {/* Message */}
+                    <div className="mb-3">
+                      <label className="form-label">Message</label>
+                      <textarea
+                        className="form-control"
+                        name="message"
+                        rows={4}
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Type your message..."
+                        required
+                      />
+                    </div>
+
+                    {/* Submit */}
+                    <button type="submit" className="btn btn-dark w-100">
+                      Send Message
+                    </button>
+                  </form>
+
                 </div>
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="form-control"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="message" className="form-label">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    className="form-control"
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <button type="submit" className="btn btn-primary w-100">
-                  Send Message
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 
