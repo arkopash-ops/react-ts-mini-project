@@ -78,10 +78,22 @@ export default function Login() {
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    role: user.role,
                 })
             );
 
-            navigate("/userhome");
+            switch (user.role) {
+                case "admin":
+                    navigate("/adminDashboard");
+                    break;
+
+                case "owner":
+                    navigate("/ownerDashboard");
+                    break;
+
+                default:
+                    navigate("/userhome");
+            }
         } catch (err) {
             console.error("Login error:", err);
             alert("An error occurred during login.");
