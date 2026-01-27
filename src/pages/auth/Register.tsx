@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SHA256 from "crypto-js/sha256";
 import type { User } from "../../Interfaces/user";
 
-type RegisterForm = {
+interface RegisterForm {
     name: string;
     email: string;
     phone: string;

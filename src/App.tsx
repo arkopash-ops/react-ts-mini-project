@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { seedAdmin } from './utils/seedAdmin';
+import { seedUsers } from './utils/seedUser';
 
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -10,16 +11,22 @@ import GuestHome from './pages/guest/GuestHome';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 
+import AdminDashboard from './pages/admin/AdminDashboard';
+
 import UserHome from './pages/user/UserHome';
+
+import OwnerDashboard from './pages/owner/OwnerDashboard';
+import RestaurantInfo from './pages/owner/RestaurantInfo';
 
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
-import AdminDashboard from './pages/admin/adminDashboard';
+
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   useEffect(() => {
     seedAdmin();
+    seedUsers();
   }, []);
 
   return (
@@ -41,8 +48,20 @@ function App() {
             } />
 
             <Route path="/userhome" element={
-              <ProtectedRoute role={['user', 'owner']}>
+              <ProtectedRoute role={['user']}>
                 <UserHome />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/ownerDashboard" element={
+              <ProtectedRoute role={['owner']}>
+                <OwnerDashboard />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/addRestaurant" element={
+              <ProtectedRoute role={['owner']}>
+                <RestaurantInfo />
               </ProtectedRoute>
             } />
 

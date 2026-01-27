@@ -75,11 +75,28 @@ export const Navbar: React.FC = () => {
                         )}
 
                         {/* User */}
-                        {isLoggedIn && (authUser.role === "user" || authUser.role === "owner") && (
+                        {isLoggedIn && (authUser.role === "user") && (
                             <>
                                 <li className="nav-item ms-3">
                                     <NavLink className="nav-link" to="/userhome">
                                         User Home
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+
+                        {/* Owner */}
+                        {isLoggedIn && (authUser.role === "owner") && (
+                            <>
+                                <li className="nav-item ms-3">
+                                    <NavLink className="nav-link" to="/ownerDashboard">
+                                        Owner Dashboard
+                                    </NavLink>
+                                </li>
+
+                                <li className="nav-item ms-3">
+                                    <NavLink className="nav-link" to="/addRestaurant">
+                                        Restaurant Info
                                     </NavLink>
                                 </li>
                             </>
