@@ -3,58 +3,100 @@ import { Link, useNavigate } from "react-router-dom";
 import SHA256 from "crypto-js/sha256";
 import type { User } from "../../Interfaces/user";
 
+type RegisterForm = {
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+};
+
+type FormError = Partial<Record<keyof RegisterForm, string>>;
+
 export default function Register() {
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState<Partial<User>>({
+    const initialFormData: RegisterForm = {
         name: "",
         email: "",
         phone: "",
         password: "",
-    });
+    };
+
+    const [formData, setFormData] = useState<RegisterForm>(initialFormData);
+    const [errors, setErrors] = useState<FormError>({});
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    function validateForm(): boolean {
+        const newErrors: FormError = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = "First name is required";
+        }
+
+        if (!formData.email) {
+            newErrors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Invalid email format";
+        }
+
+        if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
+            newErrors.phone = "Phone must be 10 digits";
+        }
+
+        if (!formData.password) {
+            newErrors.password = "Password is required";
+        } else if (formData.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        if (!validateForm()) return;
 
         try {
             const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
-            const emailExists = users.some(user => user.email === formData.email);
-            
+
+            const emailExists = users.some(
+                user => user.email === formData.email
+            );
+
             if (emailExists) {
-                alert("Email already registered!");
+                alert("Email already registered!\nPlease use another Email.");
                 return;
             }
 
-            const hashedPassword = SHA256(formData.password!).toString();
-
             const newUser: User = {
                 id: Date.now(),
-                name: formData.name!,
-                email: formData.email!,
+                name: formData.name,
+                email: formData.email,
                 phone: formData.phone || undefined,
-                password: hashedPassword,
+                password: SHA256(formData.password).toString(),
                 role: "user",
                 status: "active",
                 createdAt: new Date().toISOString(),
             };
 
-            localStorage.setItem(
-                "users",
-                JSON.stringify([...users, newUser])
-            );
+            localStorage.setItem("users", JSON.stringify([...users, newUser]));
 
-            console.log("Registered User:", newUser);
             alert("Registration successful!");
-
+            setFormData(initialFormData);
+            setErrors({});
             navigate("/login");
         } catch (err) {
-            console.error("Failed to save data:", err);
-            alert("Something went wrong while saving your data. Please try again.");
+            console.error(err);
+            alert("Something went wrong. Please try again.");
         }
     }
 
@@ -67,18 +109,19 @@ export default function Register() {
                             <h2 className="card-title mb-4 text-center">Register</h2>
 
                             <form onSubmit={handleSubmit}>
-
                                 {/* Name */}
                                 <div className="mb-3">
                                     <label className="form-label">Name</label>
                                     <input
                                         type="text"
-                                        className="form-control"
                                         name="name"
-                                        required
+                                        className={`form-control ${errors.name ? "is-invalid" : ""}`}
                                         value={formData.name}
                                         onChange={handleChange}
                                     />
+                                    {errors.name && (
+                                        <div className="invalid-feedback">{errors.name}</div>
+                                    )}
                                 </div>
 
                                 {/* Email */}
@@ -86,12 +129,14 @@ export default function Register() {
                                     <label className="form-label">Email</label>
                                     <input
                                         type="email"
-                                        className="form-control"
                                         name="email"
-                                        required
+                                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
                                         value={formData.email}
                                         onChange={handleChange}
                                     />
+                                    {errors.email && (
+                                        <div className="invalid-feedback">{errors.email}</div>
+                                    )}
                                 </div>
 
                                 {/* Phone */}
@@ -99,11 +144,14 @@ export default function Register() {
                                     <label className="form-label">Phone (optional)</label>
                                     <input
                                         type="tel"
-                                        className="form-control"
                                         name="phone"
+                                        className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                                         value={formData.phone}
                                         onChange={handleChange}
                                     />
+                                    {errors.phone && (
+                                        <div className="invalid-feedback">{errors.phone}</div>
+                                    )}
                                 </div>
 
                                 {/* Password */}
@@ -111,12 +159,14 @@ export default function Register() {
                                     <label className="form-label">Password</label>
                                     <input
                                         type="password"
-                                        className="form-control"
                                         name="password"
-                                        required
+                                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
                                         value={formData.password}
                                         onChange={handleChange}
                                     />
+                                    {errors.password && (
+                                        <div className="invalid-feedback">{errors.password}</div>
+                                    )}
                                 </div>
 
                                 <button type="submit" className="btn btn-primary w-100">

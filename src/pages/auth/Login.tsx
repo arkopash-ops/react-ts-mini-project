@@ -8,6 +8,8 @@ interface LoginFormData {
     password: string;
 }
 
+type FormError = Partial<Record<keyof LoginFormData, string>>;
+
 export default function Login() {
     const navigate = useNavigate();
 
@@ -16,41 +18,70 @@ export default function Login() {
         password: "",
     });
 
+    const [errors, setErrors] = useState<FormError>({});
+
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
+
         setFormData(prev => ({
             ...prev,
             [name]: value,
         }));
     }
 
+    function validateForm(): boolean {
+        const newErrors: FormError = {};
+
+        if (!formData.email) {
+            newErrors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Invalid email format";
+        }
+
+        if (!formData.password) {
+            newErrors.password = "Password is required";
+        } else if (formData.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    }
+
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         try {
             const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
-            const user = users.find(u => u.email = formData.email);
+
+            const user = users.find(u => u.email === formData.email);
 
             if (!user) {
-                alert("Invalid Email or Password");
+                alert("Invalid email or password");
                 return;
             }
 
-            const hashedPassword = SHA256(formData.password!).toString();
+            const hashedPassword = SHA256(formData.password).toString();
 
-            if (hashedPassword === user.password) {
-                alert("Login successful!");
-
-                localStorage.setItem("currentUser", JSON.stringify({
-                    id: user.id,
-                    name: user.name,
-                    email: user.email
-                }));
-
-                navigate("/userhome");
-            } else {
+            if (hashedPassword !== user.password) {
                 alert("Invalid email or password");
+                return;
             }
 
+            alert("Login successful!");
+
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify({
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                })
+            );
+
+            navigate("/userhome");
         } catch (err) {
             console.error("Login error:", err);
             alert("An error occurred during login.");
@@ -66,33 +97,39 @@ export default function Login() {
                             <h2 className="card-title mb-4 text-center">Login</h2>
 
                             <form onSubmit={handleSubmit}>
+                                {/* Email */}
                                 <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">Email</label>
+                                    <label className="form-label">Email</label>
                                     <input
                                         type="email"
-                                        className="form-control"
-                                        id="email"
                                         name="email"
-                                        required
+                                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
                                         value={formData.email}
                                         onChange={handleChange}
                                     />
+                                    {errors.email && (
+                                        <div className="invalid-feedback">{errors.email}</div>
+                                    )}
                                 </div>
 
+                                {/* Password */}
                                 <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <label className="form-label">Password</label>
                                     <input
                                         type="password"
-                                        className="form-control"
-                                        id="password"
                                         name="password"
-                                        required
+                                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
                                         value={formData.password}
                                         onChange={handleChange}
                                     />
+                                    {errors.password && (
+                                        <div className="invalid-feedback">{errors.password}</div>
+                                    )}
                                 </div>
 
-                                <button type="submit" className="btn btn-primary w-100">Login</button>
+                                <button type="submit" className="btn btn-primary w-100">
+                                    Login
+                                </button>
                             </form>
 
                             <p className="mt-3 text-center">
