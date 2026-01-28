@@ -26,7 +26,7 @@ const UserHome: React.FC = () => {
       <section
         className="py-5 bg-light"
         style={{
-          background: "linear-gradient(135deg, #1f1f1f, #f1f1f1)"
+          background: "linear-gradient(135deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)",
         }}
       >
         <div className="container">
@@ -58,9 +58,9 @@ const UserHome: React.FC = () => {
                   style={{ height: "500px", objectFit: "cover" }}
                 />
                 <div className="card-body">
-                  <h5 className="fw-bold text-light">Quick Reorder</h5>
+                  <h5 className="fw-bold text-light">Quick Order</h5>
                   <p className="text-secondary">
-                    Reorder your previous meals with one click.
+                    Order your previous meals with one click.
                   </p>
                 </div>
               </div>

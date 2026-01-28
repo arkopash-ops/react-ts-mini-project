@@ -24,7 +24,7 @@ const GuestHome = () => {
       <section
         className="py-5 bg-light"
         style={{
-          background: "linear-gradient(135deg, #1f1f1f, #f1f1f1)"
+          background: "linear-gradient(135deg, #000000, #5c47ff, #bcbcfc, #ffffff, #bcbcfc, #5c47ff, #000000)",
         }}
       >
         <div className="container">

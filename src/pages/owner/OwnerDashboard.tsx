@@ -31,7 +31,7 @@ const OwnerDashboard = () => {
         <main
             className="py-5"
             style={{
-                background: "linear-gradient(135deg, #000000, #5c47ff, #bcbcfc, #ffffff)",
+                background: "linear-gradient(180deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)",
                 minHeight: "100vh",
             }}
         >

@@ -112,7 +112,7 @@ const RestaurantInfo = () => {
     return (
         <main
             className="min-vh-100 d-flex align-items-center"
-            style={{ background: "linear-gradient(135deg, #000000, #5c47ff, #bcbcfc, #ffffff)" }}
+            style={{ background: "linear-gradient(180deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)" }}
         >
             <div className="container">
                 <div className="row justify-content-center">

@@ -104,8 +104,8 @@ export default function Login() {
         <main
             className="min-vh-100 d-flex align-items-center"
             style={{
-                background: "linear-gradient(135deg, #1f1f1f, #f1f1f1)"
-            }}
+                    background: "linear-gradient(180deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)",
+                }}
         >
             <div className="container">
                 <div className="row justify-content-center">

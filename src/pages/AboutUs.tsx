@@ -1,8 +1,11 @@
 const AboutUs = () => {
     return (
         <main>
-            <section 
-            className="bg-light py-5">
+            <section
+                className="bg-light py-5"
+                style={{
+                    background: "linear-gradient(180deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)",
+                }}>
                 <div className="container text-center">
                     <h1 className="fw-bold text-dark">About Bon Appétit</h1>
                     <p className="text-muted mt-3">
