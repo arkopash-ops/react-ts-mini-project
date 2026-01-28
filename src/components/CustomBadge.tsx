@@ -9,3 +9,4 @@ export const CustomBadge = ({ children, color = "secondary", pill = false, class
         </span>
     )
 }
+    

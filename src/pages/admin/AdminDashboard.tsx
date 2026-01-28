@@ -1,108 +1,195 @@
-import React from "react";
+import React, { useState } from "react";
+import type { User } from "@/Interfaces/user";
+import type { Restaurant } from "@/Interfaces/restaurant";
+import { CustomBadge } from "@/components/CustomBadge";
 
 const AdminDashboard: React.FC = () => {
+  const [users] = useState<User[]>(() =>
+    JSON.parse(localStorage.getItem("users") || "[]")
+  );
+  const [restaurants] = useState<Restaurant[]>(() =>
+    JSON.parse(localStorage.getItem("restaurants") || "[]")
+  );
+
+  const [activeTab, setActiveTab] = useState<"users" | "restaurants">("users");
+
+  const statusColorMap: Record<string, string> = {
+    active: "success",
+    banned: "danger",
+    inactive: "secondary",
+  };
+
+  const roleColorMap: Record<string, string> = {
+    admin: "primary",
+    owner: "info",
+    user: "secondary",
+  };
+
   return (
-    <main>
-      {/* Hero */}
-      <section className="bg-dark text-white text-center py-5">
-        <div className="container">
-          <h1 className="fw-bold display-5">
-            Admin Dashboard
-          </h1>
-          <p className="lead mt-3">
-            Manage restaurants, orders, and users from one place.
-          </p>
+    <section
+      className="bg-light py-5"
+      style={{
+        background:
+          "linear-gradient(180deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)",
+      }}
+    >
+      <main className="container py-5">
+        <header className="mb-5 text-center">
+          <h1 className="fw-bold display-5 text-light">Admin Dashboard</h1>
+          <p className="text-light">Complete overview of users and restaurants</p>
+        </header>
 
-          <div className="d-flex justify-content-center gap-3 mt-4">
-            <a href="/admin/restaurants" className="btn btn-light btn-lg fw-bold">
-              Manage Restaurants
-            </a>
-            <a href="/admin/orders" className="btn btn-outline-light btn-lg fw-bold">
-              View Orders
-            </a>
-            <a href="/admin/users" className="btn btn-outline-light btn-lg fw-bold">
-              Manage Users
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Admin Features */}
-      <section
-        className="py-5 bg-light"
-        style={{ background: "linear-gradient(135deg, #000000, #5c47ff, #bcbcfc, #5c47ff, #000000)" }}
-      >
-        <div className="container">
-          <div className="row text-center g-4">
-
-            <div className="col-md-4">
-              <div className="card h-100 shadow-sm bg-dark">
-                <img
-                  src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
-                  alt="Restaurant management"
-                  className="card-img-top"
-                  style={{ height: "500px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="fw-bold text-light">Restaurant Management</h5>
-                  <p className="text-secondary">
-                    Add, edit, approve, or suspend restaurant listings.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="card h-100 shadow-sm bg-dark">
-                <img
-                  src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f"
-                  alt="Order monitoring"
-                  className="card-img-top"
-                  style={{ height: "500px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="fw-bold text-light">Order Monitoring</h5>
-                  <p className="text-secondary">
-                    Track, update, and resolve active orders in real time.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="card h-100 shadow-sm bg-dark">
-                <img
-                  src="https://images.unsplash.com/photo-1556155092-8707de31f9c4"
-                  alt="User management"
-                  className="card-img-top"
-                  style={{ height: "500px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="fw-bold text-light">User Management</h5>
-                  <p className="text-secondary">
-                    View users, manage roles, and handle account issues.
-                  </p>
-                </div>
-              </div>
-            </div>
+        {/* CARD WITH CUSTOM THEME */}
+        <div
+          className="card text-light"
+          style={{
+            background:
+              "linear-gradient(90deg, #5c47ff, #1a1a2e, #1a1a2e, #5c47ff)",
+            border: "none",
+          }}
+        >
+          <div className="card-header border-0 bg-transparent">
+            <ul className="nav nav-tabs card-header-tabs">
+              <li className="nav-item">
+                <button
+                  className={`nav-link ${activeTab === "users" ? "active" : ""}`}
+                  onClick={() => setActiveTab("users")}
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "white",
+                    border: "none"
+                  }}
+                >
+                  Users
+                </button>
+              </li>
+              <li className="nav-item">
+                <button
+                  className={`nav-link ${activeTab === "restaurants" ? "active" : ""}`}
+                  onClick={() => setActiveTab("restaurants")}
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "white",
+                    border: "none",
+                  }}
+                >
+                  Restaurants
+                </button>
+              </li>
+            </ul>
 
           </div>
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section className="bg-dark text-white text-center py-5">
-        <div className="container">
-          <h2 className="fw-bold">System Overview</h2>
-          <p className="mt-3">
-            Keep everything running smoothly and efficiently.
-          </p>
-          <a href="/admin/reports" className="btn btn-light btn-lg fw-bold mt-2">
-            View Reports
-          </a>
+          <div className="card-body">
+            {/* USERS TABLE */}
+            {activeTab === "users" && (
+              <div>
+                <h5 className="card-title text-light">Users</h5>
+                <div className="table-responsive">
+                  <table className="table table-bordered table-hover align-middle text-light">
+                    <thead className="table-dark">
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users.length === 0 ? (
+                        <tr>
+                          <td colSpan={7} className="text-center text-muted">
+                            No users found
+                          </td>
+                        </tr>
+                      ) : (
+                        users.map((user) => (
+                          <tr key={user.id}>
+                            <td>{user.id}</td>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.phone || "—"}</td>
+                            <td>
+                              <CustomBadge color={roleColorMap[user.role] || "secondary"} pill>
+                                {user.role}
+                              </CustomBadge>
+                            </td>
+                            <td>
+                              <CustomBadge color={statusColorMap[user.status] || "secondary"} pill>
+                                {user.status}
+                              </CustomBadge>
+                            </td>
+                            <td>{user.createdAt || "—"}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* RESTAURANTS TABLE */}
+            {activeTab === "restaurants" && (
+              <div>
+                <h5 className="card-title text-light">Restaurants</h5>
+                <div className="table-responsive">
+                  <table className="table table-bordered table-hover align-middle text-light">
+                    <thead className="table-dark">
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Owner ID</th>
+                        <th>Address</th>
+                        <th>Cuisines</th>
+                        <th>Status</th>
+                        <th>Operating Hours</th>
+                        <th>Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {restaurants.length === 0 ? (
+                        <tr>
+                          <td colSpan={8} className="text-center text-muted">
+                            No restaurants found
+                          </td>
+                        </tr>
+                      ) : (
+                        restaurants.map((r) => (
+                          <tr key={r.id}>
+                            <td>{r.id}</td>
+                            <td>{r.name}</td>
+                            <td>{r.ownerId}</td>
+                            <td>{r.address}</td>
+                            <td>
+                              {r.cuisine.map((c, i) => (
+                                <CustomBadge key={i} color="dark" className="me-1" pill>
+                                  {c}
+                                </CustomBadge>
+                              ))}
+                            </td>
+                            <td>
+                              <CustomBadge color={statusColorMap[r.status] || "secondary"} pill>
+                                {r.status}
+                              </CustomBadge>
+                            </td>
+                            <td>{r.operatingHours || "—"}</td>
+                            <td>{r.createdAt || "—"}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </section>
-    </main>
+      </main>
+    </section>
   );
 };
 

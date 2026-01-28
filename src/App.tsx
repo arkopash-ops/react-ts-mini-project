@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
+
 import { seedAdmin } from './utils/seedAdmin';
 import { seedUsers } from './utils/seedUser';
+import { seedRestaurants } from './utils/seedRestaurant';
 
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -27,6 +29,7 @@ function App() {
   useEffect(() => {
     seedAdmin();
     seedUsers();
+    seedRestaurants();
   }, []);
 
   return (

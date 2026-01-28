@@ -5,5 +5,4 @@ export type Cuisine =
     | 'Italian'
     | 'Mexican'
     | 'American'
-    | 'Thai'
-    | 'Others';
+    | 'Thai';

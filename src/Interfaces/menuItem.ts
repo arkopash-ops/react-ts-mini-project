@@ -3,8 +3,8 @@ import type { FoodStatus } from "../types/foodStatus";
 import type { MenuCategory } from "../types/menuCategory";
 
 export interface MenuItem {
-    id: number;
-    restaurantId: number;
+    id: string;
+    restaurantId: string;
     name: string;
     description?: string;
     price: number;

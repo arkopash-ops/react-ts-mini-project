@@ -54,18 +54,12 @@ const OwnerDashboard = () => {
                                 key={restaurant.id}
                             >
                                 <div className="card h-100 shadow-lg bg-dark text-white border-0 rounded-4">
-                                    {restaurant.image && (
-                                        <img
-                                            src={
-                                                restaurant.image?.trim() ||
-                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfuef8AANiMD4T1o3DPb9klZUrK46kH4Zz-4l_DfjNmg&sv"
-                                            }
-                                            className="card-img-top rounded-top-4"
-                                            alt={restaurant.name || "Restaurant Image"}
-                                            style={{ height: "300px", objectFit: "cover" }}
-                                        />
-
-                                    )}
+                                    <img
+                                        src={restaurant.image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfuef8AANiMD4T1o3DPb9klZUrK46kH4Zz-4l_DfjNmg"}
+                                        className="card-img-top rounded-top-4"
+                                        alt={restaurant.name}
+                                        style={{ height: "300px", objectFit: "cover" }}
+                                    />
 
                                     <div className="card-body">
                                         <h5 className="fw-bold mb-1">

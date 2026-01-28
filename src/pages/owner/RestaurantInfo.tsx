@@ -21,7 +21,6 @@ const CUISINES: Cuisine[] = [
     "Mexican",
     "American",
     "Thai",
-    "Others",
 ];
 
 const RestaurantInfo = () => {
@@ -96,7 +95,7 @@ const RestaurantInfo = () => {
             ownerId: currentUser.id,
             address: formData.address,
             cuisine: formData.cuisine,
-            image: formData.image || undefined,
+            image: formData.image.trim() || null,
             status: "active",
             operatingHours: formData.operatingHours || undefined,
             createdAt: new Date().toISOString(),

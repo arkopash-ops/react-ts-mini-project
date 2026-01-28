@@ -2,7 +2,7 @@ import type { Role } from "@/types/role";
 import type { Status } from "@/types/status";
 
 export interface User {
-    id: number;
+    id: string;
     name: string;
     email: string;
     password: string; // Hashed Password(SHA-256)
