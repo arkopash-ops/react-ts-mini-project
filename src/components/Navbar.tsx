@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("currentUser");
-        navigate("/");
+        navigate("/login");
     };
 
     return (
@@ -79,6 +79,18 @@ export const Navbar: React.FC = () => {
                                         User Home
                                     </NavLink>
                                 </li>
+
+                                <li className="nav-item ms-3">
+                                    <NavLink className="nav-link" to="/browseRestaurants">
+                                        Restaurent
+                                    </NavLink>
+                                </li>
+
+                                <li className="nav-item ms-3">
+                                    <NavLink className="nav-link" to="/orders">
+                                        My Orders
+                                    </NavLink>
+                                </li>
                             </>
                         )}
 
@@ -92,7 +104,7 @@ export const Navbar: React.FC = () => {
                                 </li>
 
                                 <li className="nav-item ms-3">
-                                    <NavLink className="nav-link" to="/addRestaurant">
+                                    <NavLink className="nav-link" to="/restaurant/create">
                                         Restaurant Info
                                     </NavLink>
                                 </li>

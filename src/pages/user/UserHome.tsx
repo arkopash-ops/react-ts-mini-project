@@ -1,19 +1,37 @@
+import type { Role } from "@/types/role";
 import React from "react";
 
+interface CurrentUser {
+  role: Role;
+  name: string;
+}
+
 const UserHome: React.FC = () => {
+  const authUser: CurrentUser | null = (() => {
+    const storedUser = localStorage.getItem("currentUser");
+    return storedUser ? JSON.parse(storedUser) : null;
+  })();
+
+  const isLoggedIn = !!authUser;
+
   return (
     <main>
       <section className="bg-dark text-white text-center py-5">
         <div className="container">
-          <h1 className="fw-bold display-5">
-            Welcome back
-          </h1>
+          <h3 className="display-3">
+            Welcome back,
+            {isLoggedIn && (
+              <span className="navbar-text text-light ms-3">
+                {authUser.name}
+              </span>
+            )}
+          </h3>
           <p className="lead mt-3">
             What are you craving today?
           </p>
 
           <div className="d-flex justify-content-center gap-3 mt-4">
-            <a href="/restaurants" className="btn btn-light btn-lg fw-bold">
+            <a href="/browseRestaurants" className="btn btn-light btn-lg fw-bold">
               Browse Restaurants
             </a>
             <a href="/orders" className="btn btn-outline-light btn-lg fw-bold">
@@ -93,7 +111,7 @@ const UserHome: React.FC = () => {
           <p className="mt-3">
             Your next meal is just a few clicks away.
           </p>
-          <a href="/restaurants" className="btn btn-light btn-lg fw-bold mt-2">
+          <a href="/browseRestaurants" className="btn btn-light btn-lg fw-bold mt-2">
             Order Now
           </a>
         </div>

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { seedAdmin } from './utils/seedAdmin';
 import { seedUsers } from './utils/seedUser';
 import { seedRestaurants } from './utils/seedRestaurant';
+import { seedMenuItems } from './utils/seedMenuItems';
 
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -24,12 +25,15 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 
 import { ProtectedRoute } from './components/ProtectedRoute';
+import BrowseRestaurant from './pages/user/BrowseRestaurant';
+import MyOrders from './pages/user/MyOrders';
 
 function App() {
   useEffect(() => {
     seedAdmin();
     seedUsers();
     seedRestaurants();
+    seedMenuItems();
   }, []);
 
   return (
@@ -44,25 +48,46 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
 
+            {/* admin */}
             <Route path="/adminDashboard" element={
               <ProtectedRoute role={['admin']}>
                 <AdminDashboard />
               </ProtectedRoute>
             } />
 
+            {/* user */}
             <Route path="/userhome" element={
               <ProtectedRoute role={['user']}>
                 <UserHome />
               </ProtectedRoute>
             } />
 
+            <Route path="/browseRestaurants" element={
+              <ProtectedRoute role={['user']}>
+                <BrowseRestaurant />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/orders" element={
+              <ProtectedRoute role={['user']}>
+                <MyOrders />
+              </ProtectedRoute>
+            } />
+
+            {/* owner */}
             <Route path="/ownerDashboard" element={
               <ProtectedRoute role={['owner']}>
                 <OwnerDashboard />
               </ProtectedRoute>
             } />
 
-            <Route path="/addRestaurant" element={
+            <Route path="/restaurant/create" element={
+              <ProtectedRoute role={['owner']}>
+                <RestaurantInfo />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/restaurant/edit/:id" element={
               <ProtectedRoute role={['owner']}>
                 <RestaurantInfo />
               </ProtectedRoute>
