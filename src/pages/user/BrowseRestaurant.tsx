@@ -6,6 +6,8 @@ import { CustomBadge } from "@/components/CustomBadge";
 
 const fallbackRestaurantImage =
   "https://cdn.pixabay.com/photo/2017/08/10/04/49/restaurant-2618315_1280.jpg";
+const fallbackMenuImage =
+  "https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246_1280.jpg";
 
 const categories: MenuItem["category"][] = [
   "starter",
@@ -25,7 +27,7 @@ const BrowseRestaurant = () => {
   const [menuItems] = useState<MenuItem[]>(getSavedMenuItems);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCuisine, setSelectedCuisine] = useState<Cuisine | "All">("All");
-  const [expandedRestaurantId, setExpandedRestaurantId] = useState<string | null>(
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState<string | null>(
     null
   );
 
@@ -62,6 +64,21 @@ const BrowseRestaurant = () => {
     });
     return grouped;
   }, [menuItems]);
+
+  const selectedRestaurant = useMemo(() => {
+    if (!selectedRestaurantId) {
+      return null;
+    }
+    return restaurants.find((restaurant) => restaurant.id === selectedRestaurantId);
+  }, [restaurants, selectedRestaurantId]);
+
+  const selectedRestaurantMenu = useMemo(() => {
+    if (!selectedRestaurantId) {
+      return [];
+    }
+    const items = menuByRestaurant.get(selectedRestaurantId) ?? [];
+    return items.filter((item) => item.status === "available");
+  }, [menuByRestaurant, selectedRestaurantId]);
 
   return (
     <main
@@ -128,7 +145,6 @@ const BrowseRestaurant = () => {
               const availableItems = items.filter(
                 (item) => item.status === "available"
               );
-              const isExpanded = expandedRestaurantId === restaurant.id;
 
               return (
                 <article key={restaurant.id} className="col-md-6 col-lg-4">
@@ -167,52 +183,10 @@ const BrowseRestaurant = () => {
                       <button
                         type="button"
                         className="btn btn-dark mt-auto"
-                        onClick={() =>
-                          setExpandedRestaurantId((currentId) =>
-                            currentId === restaurant.id ? null : restaurant.id
-                          )
-                        }
+                        onClick={() => setSelectedRestaurantId(restaurant.id)}
                       >
-                        {isExpanded ? "Hide Menu" : "View Menu"}
+                        View Menu
                       </button>
-
-                      {isExpanded && (
-                        <div className="mt-3 border-top pt-3">
-                          {availableItems.length === 0 ? (
-                            <p className="small text-muted mb-0">
-                              No available menu items right now.
-                            </p>
-                          ) : (
-                            categories.map((category) => {
-                              const categoryItems = availableItems.filter(
-                                (item) => item.category === category
-                              );
-                              if (categoryItems.length === 0) {
-                                return null;
-                              }
-
-                              return (
-                                <div key={`${restaurant.id}-${category}`} className="mb-2">
-                                  <p className="text-uppercase fw-bold small mb-1">
-                                    {category}
-                                  </p>
-                                  <ul className="list-group list-group-flush">
-                                    {categoryItems.slice(0, 3).map((item) => (
-                                      <li
-                                        key={item.id}
-                                        className="list-group-item px-0 py-1 small d-flex justify-content-between"
-                                      >
-                                        <span>{item.name}</span>
-                                        <strong>Rs. {item.price.toFixed(2)}</strong>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              );
-                            })
-                          )}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </article>
@@ -221,6 +195,107 @@ const BrowseRestaurant = () => {
           </section>
         )}
       </div>
+
+      {selectedRestaurant && (
+        <div
+          className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-3"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", zIndex: 1050 }}
+        >
+          <div
+            className="card border-0 rounded-4 shadow-lg overflow-hidden w-100"
+            style={{ maxWidth: "980px", maxHeight: "92vh" }}
+          >
+            <div className="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">Restaurant Menu</h5>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-light"
+                onClick={() => setSelectedRestaurantId(null)}
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="card-body overflow-auto">
+              <div className="row g-3 mb-4">
+                <div className="col-md-5">
+                  <img
+                    src={selectedRestaurant.image || fallbackRestaurantImage}
+                    alt={selectedRestaurant.name}
+                    className="img-fluid rounded-3 w-100"
+                    style={{ height: "250px", objectFit: "cover" }}
+                  />
+                </div>
+                <div className="col-md-7">
+                  <h4 className="fw-bold mb-2">{selectedRestaurant.name}</h4>
+                  <p className="text-secondary mb-2">{selectedRestaurant.address}</p>
+                  <p className="small mb-2">
+                    <strong>Hours:</strong>{" "}
+                    {selectedRestaurant.operatingHours || "Not provided"}
+                  </p>
+                  <div>
+                    {selectedRestaurant.cuisine.map((cuisine) => (
+                      <CustomBadge
+                        key={`${selectedRestaurant.id}-modal-${cuisine}`}
+                        pill
+                        color="dark"
+                        className="me-1 mb-1"
+                      >
+                        {cuisine}
+                      </CustomBadge>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {selectedRestaurantMenu.length === 0 ? (
+                <div className="alert alert-light mb-0">
+                  No available menu items right now.
+                </div>
+              ) : (
+                categories.map((category) => {
+                  const categoryItems = selectedRestaurantMenu.filter(
+                    (item) => item.category === category
+                  );
+
+                  if (categoryItems.length === 0) {
+                    return null;
+                  }
+
+                  return (
+                    <section key={`${selectedRestaurant.id}-modal-${category}`} className="mb-4">
+                      <h6 className="text-uppercase fw-bold mb-3">{category}</h6>
+                      <div className="row g-3">
+                        {categoryItems.map((item) => (
+                          <article key={item.id} className="col-md-6 col-lg-4">
+                            <div className="card h-100 border-0 shadow-sm">
+                              <img
+                                src={item.image || fallbackMenuImage}
+                                alt={item.name}
+                                className="card-img-top"
+                                style={{ height: "150px", objectFit: "cover" }}
+                              />
+                              <div className="card-body">
+                                <h6 className="fw-bold mb-1">{item.name}</h6>
+                                <p className="small text-secondary mb-2">
+                                  {item.description || "Freshly prepared item."}
+                                </p>
+                                <p className="fw-semibold mb-0">
+                                  Rs. {item.price.toFixed(2)}
+                                </p>
+                              </div>
+                            </div>
+                          </article>
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
