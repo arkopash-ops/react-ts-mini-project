@@ -34,9 +34,9 @@ const UserHome: React.FC = () => {
             <a href="/browseRestaurants" className="btn btn-light btn-lg fw-bold">
               Browse Restaurants
             </a>
-            <a href="/orders" className="btn btn-outline-light btn-lg fw-bold">
+            {/* <a href="/orders" className="btn btn-outline-light btn-lg fw-bold">
               My Orders
-            </a>
+            </a> */}
           </div>
         </div>
       </section>
@@ -111,9 +111,9 @@ const UserHome: React.FC = () => {
           <p className="mt-3">
             Your next meal is just a few clicks away.
           </p>
-          <a href="/browseRestaurants" className="btn btn-light btn-lg fw-bold mt-2">
+          {/* <a href="/browseRestaurants" className="btn btn-light btn-lg fw-bold mt-2">
             Order Now
-          </a>
+          </a> */}
         </div>
       </section>
     </main>

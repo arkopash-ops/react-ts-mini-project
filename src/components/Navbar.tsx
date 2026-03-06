@@ -86,11 +86,11 @@ export const Navbar: React.FC = () => {
                                     </NavLink>
                                 </li>
 
-                                <li className="nav-item ms-3">
+                                {/* <li className="nav-item ms-3">
                                     <NavLink className="nav-link" to="/orders">
                                         My Orders
                                     </NavLink>
-                                </li>
+                                </li> */}
                             </>
                         )}
 

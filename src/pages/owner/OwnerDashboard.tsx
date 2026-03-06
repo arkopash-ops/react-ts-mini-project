@@ -52,7 +52,6 @@ const OwnerDashboard = () => {
                 ) : (
                     <div className="row g-4">
                         {ownerRestaurants.map(r => {
-                            // Get menu items for this restaurant
                             const menuItems: MenuItem[] = JSON.parse(
                                 localStorage.getItem("menuItems") || "[]"
                             );

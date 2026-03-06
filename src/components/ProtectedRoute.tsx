@@ -12,11 +12,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, role }
 
     if (!authUser) {
         alert("You need to Login first!");
-        return <Navigate to="/" replace />;
+        return <Navigate to="/" />;
     }
 
     if (role && !role.includes(authUser.role)) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/" />;
     }
 
     return children;
